@@ -5,7 +5,7 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
 import numpy as np
 
-def createTokenizer(max_nb_words = 100000, oov_token = True, text):
+def createTokenizer(text, max_nb_words = 100000, oov_token = True):
   print("tokenizing input data...")
   tokenizer = Tokenizer(num_words=max_nb_words, oov_token=oov_token, lower=True, char_level=False)
   tokenizer.fit_on_texts(text)
@@ -182,4 +182,6 @@ def removeApostrophe(text):
     for word in text.split():
         if word.lower() in contractions:
             text = text.replace(word, contractions[word.lower()])
+        elif len(word)>=3 and word[-1]=='s' and word[-2]=="'":
+            text = text.replace(word,word[:-2])
     return text
