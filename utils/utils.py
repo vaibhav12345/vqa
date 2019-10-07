@@ -42,7 +42,7 @@ def loadWordEmbeddings(filePath, embed_size = 300):
     print('found %s word vectors' % len(embeddings_index))
     return embeddings_index
 
-def createEmbeddingMatrix(word_index, embeddings_index):
+def createEmbeddingMatrix(word_index, embeddings_index, embed_size = 300):
     #embedding matrix
     print('preparing embedding matrix...')
     words_not_found = []
