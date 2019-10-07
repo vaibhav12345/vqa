@@ -14,7 +14,7 @@ def createTokenizer(text, max_nb_words = 100000, oov_token = True):
   return tokenizer, word_index
 
 
-def createEncodedPaddedText(tokenizer, text):
+def createEncodedPaddedText(tokenizer, text, time_steps):
   sequences = tokenizer.texts_to_sequences(text)
   padded_text = pad_sequences(sequences, maxlen=time_steps, padding='post')
   return sequences, padded_text

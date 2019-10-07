@@ -1,4 +1,4 @@
-from keras.layers import concatenate, Embedding, Bidirectional, LSTM, Input, Add,Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Dropout, Flatten, merge, Reshape, Activation
+from keras.layers import concatenate, Embedding, Bidirectional, LSTM, Input, Dense, merge
 from keras.models import load_model,Model
 from keras.initializers import glorot_uniform
 from keras.applications.vgg16 import VGG16
@@ -27,7 +27,7 @@ def vqaModel(embedding_matrix, trainable=False, num_classes=1000,embed_size=100,
     encoded_question=vgg16Model(num_classes)
     encoded_image=lstmModel(embedding_matrix, trainable, embed_size, vocab_size, time_steps, unit_length)
 
-    merged = keras.layers.concatenate([encoded_question.output, encoded_image.output])
+    merged = concatenate([encoded_question.output, encoded_image.output])
     output = Dense(num_classes, activation='softmax')(merged)
     vqa_model = Model(inputs=[encoded_question.input, encoded_image.input], outputs=output)
     return vqa_model
