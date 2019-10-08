@@ -19,12 +19,12 @@ def createEncodedPaddedText(tokenizer, text, time_steps):
   padded_text = pad_sequences(sequences, maxlen=time_steps, padding='post')
   return sequences, padded_text
 
-def saveToH5Py(data, fileName):
-    with h5py.File(fileName + '.h5', 'w') as hf:
+def saveToH5Py(data, filePath, fileName):
+    with h5py.File(filePath + fileName + '.h5', 'w') as hf:
         hf.create_dataset(fileName,  data=data)
 
-def readFromH5Py(fileName):
-    with h5py.File(fileName + '.h5', 'r') as hf:
+def readFromH5Py(filePath, fileName):
+    with h5py.File(filePath + fileName + '.h5', 'r') as hf:
         data = hf[fileName][:]
     return data
 
