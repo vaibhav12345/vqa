@@ -55,7 +55,7 @@ def vqaModelSimple(embedding_matrix, trainable=False, num_classes=1000,embed_siz
 def vqaModelBiLSTM(embedding_matrix, trainable=False, num_classes=1000,embed_size=100, vocab_size=10000, time_steps=20, unit_length=512, dropout=0.5):
     #LSTM
     inputsLSTM = Input(shape=(time_steps,))
-    x = Embedding(output_dim=embed_size, input_dim=vocab_size, weights=[embedding_matrix],input_length=time_steps, trainable=trainable)(inputs)
+    x = Embedding(output_dim=embed_size, input_dim=vocab_size, weights=[embedding_matrix],input_length=time_steps, trainable=trainable)(inputsLSTM)
     # default merge_mode is concatenate others are mul,ave,sum
     y= Bidirectional(LSTM(unit_length, return_sequences=True), input_shape=(time_steps, 1), merge_mode='mul')(x)
     a= Bidirectional(LSTM(unit_length, return_sequences=False), input_shape=(time_steps, 1), merge_mode='sum')(y)
@@ -64,7 +64,7 @@ def vqaModelBiLSTM(embedding_matrix, trainable=False, num_classes=1000,embed_siz
     #VGG16
     modelVGG16 = VGG16(include_top=True, weights='imagenet', classes=num_classes)
     ip = modelVGG16.input
-    op = model.layers[-2].output
+    op = modelVGG16.layers[-2].output
     modelVGG16New = Model(ip,op)
     for layer in modelVGG16New.layers:
         layer.trainable = False
