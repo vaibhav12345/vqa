@@ -22,7 +22,7 @@ def lstmModel(embedding_matrix, trainable, embed_size, vocab_size, time_steps, u
     a= Bidirectional(LSTM(unit_length, return_sequences=False), input_shape=(time_steps, 1), merge_mode='sum')(y)
     model = Model(inputs=inputs, outputs=a)
     return model
-def vqaModelSimple(embedding_matrix, trainable=False, num_classes=1000,embed_size=100, vocab_size=10000, time_steps=20, unit_length=512):
+def vqaModelSimple(embedding_matrix, trainable=False, num_classes=1000,embed_size=100, vocab_size=10000, time_steps=20, unit_length=512, dropout=0.5):
     #LSTM MODEL
     inputsLSTM = Input(shape=(time_steps,))
     x = Embedding(output_dim=embed_size, input_dim=vocab_size, weights=[embedding_matrix],input_length=time_steps, trainable=trainable)(inputsLSTM)
@@ -43,9 +43,9 @@ def vqaModelSimple(embedding_matrix, trainable=False, num_classes=1000,embed_siz
         layer.trainable = False
     mergedLayers = Multiply()([modelVGG16New.output, modelLSTM.output])
     dense1 = Dense(1000, activation='tanh')(mergedLayers)
-    dense1 = Dropout(0.5)(dense1)
+    dense1 = Dropout(dropout)(dense1)
     dense2 = Dense(1000, activation='tanh')(dense1)
-    dense2 = Dropout(0.5)(dense2)
+    dense2 = Dropout(dropout)(dense2)
 
     output =  Dense(num_classes, activation='softmax')(dense2)
 
