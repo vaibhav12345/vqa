@@ -4,6 +4,7 @@ import h5py
 from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
 import numpy as np
+import pandas as pd
 
 def createTokenizer(text, max_nb_words = 100000, oov_token = True):
   print("tokenizing input data...")
@@ -12,6 +13,10 @@ def createTokenizer(text, max_nb_words = 100000, oov_token = True):
   word_index = tokenizer.word_index
   print("dictionary size: ", len(word_index))
   return tokenizer, word_index
+
+def filterDatasetByType(df,class_type,value):
+    df_new=df[df[class_type]==value]
+    return df_new
 
 
 def createEncodedPaddedText(tokenizer, text, time_steps):
