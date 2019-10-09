@@ -33,14 +33,14 @@ def readFromH5Py(filePath, fileName):
     with h5py.File(filePath + fileName + '.h5', 'r') as hf:
         data = hf[fileName][:]
     return data
-def saveToPickle(filePath, fileName):
+def saveToPickle(filePath, fileName, data):
     file = open(filePath + fileName + '.pkl', 'wb')
     # dump information to that file
     pickle.dump(data, file)
     # close the file
     file.close()
 def readFromPickle(filePath, fileName):
-    file = open(filePath + fileName '.pkl', 'rb')
+    file = open(filePath + fileName + '.pkl', 'rb')
     data = pickle.load(file)
     file.close()
     return data
