@@ -33,7 +33,7 @@ def vqaModelSimple(embedding_matrix, trainable=False, num_classes=1000,embed_siz
     modelLSTM = Model(inputs=inputsLSTM, outputs=outputsLSTM)
 
     #VGG16 MODEL
-    modelVGG16 = VGG16(include_top=True, weights='imagenet', classes=num_classes)
+    modelVGG16 = VGG16(include_top=True, weights='imagenet', classes=1000)
     inputsVGG16 = modelVGG16.input
     op = modelVGG16.layers[-2].output
     l2_norm = Lambda(lambda  x: K.l2_normalize(x,axis=1))(op)
@@ -62,7 +62,7 @@ def vqaModelBiLSTM(embedding_matrix, trainable=False, num_classes=1000,embed_siz
     modelLSTM = Model(inputs=inputsLSTM, outputs=a)
 
     #VGG16
-    modelVGG16 = VGG16(include_top=True, weights='imagenet', classes=num_classes)
+    modelVGG16 = VGG16(include_top=True, weights='imagenet', classes=1000)
     ip = modelVGG16.input
     op = modelVGG16.layers[-2].output
     modelVGG16New = Model(ip,op)
@@ -79,7 +79,7 @@ def vqaModelBiLSTM(embedding_matrix, trainable=False, num_classes=1000,embed_siz
 
 
 def vqaModel(embedding_matrix, trainable=False, num_classes=1000,embed_size=100, vocab_size=10000, time_steps=20, unit_length=256):
-    encoded_question=vgg16Model(num_classes)
+    encoded_question=vgg16Model(1000)
     encoded_image=lstmModel(embedding_matrix, trainable, embed_size, vocab_size, time_steps, unit_length)
     merged = concatenate([encoded_question.output, encoded_image.output])
     output = Dense(num_classes, activation='softmax')(merged)
