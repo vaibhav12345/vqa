@@ -1,5 +1,6 @@
 import codecs
 import h5py
+import pickle
 
 from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
@@ -31,6 +32,17 @@ def saveToH5Py(data, filePath, fileName):
 def readFromH5Py(filePath, fileName):
     with h5py.File(filePath + fileName + '.h5', 'r') as hf:
         data = hf[fileName][:]
+    return data
+def saveToPickle(filePath, fileName):
+    file = open(filePath + fileName + '.pkl', 'wb')
+    # dump information to that file
+    pickle.dump(data, file)
+    # close the file
+    file.close()
+def readFromPickle(filePath, fileName):
+    file = open(filePath + fileName '.pkl', 'rb')
+    data = pickle.load(file)
+    file.close()
     return data
 
 def loadWordEmbeddings(filePath, embed_size = 300):
