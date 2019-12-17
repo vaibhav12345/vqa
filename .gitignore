@@ -2,3 +2,7 @@ Dataset-Coco-V2/
 *.zip
 *.json
 *.csv
+*.pkl
+*.jpg
+*.jpeg
+*.h5
